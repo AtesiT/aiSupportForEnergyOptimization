@@ -3,6 +3,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from sklearn.ensemble import IsolationForest
+import time
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -222,7 +223,46 @@ def visualize_results(df, recommendations):
     plt.show()
 
 # ========================
-# 5. ОСНОВНАЯ ЛОГИКА
+# 5. ДОПОЛНИТЕЛЬНО: ДЕМО-РЕЖИМ
+# ========================
+
+def simulate_realtime_monitoring():
+    """Демо-режим реального времени"""
+    print("\n🎮 ДЕМО-РЕЖИМ: Мониторинг в реальном времени")
+    print("Имитация входящих данных каждые 5 секунд...")
+    
+    for i in range(10):
+        # Генерация "текущего" показания
+        current_time = datetime.now()
+        base_power = 5000
+        current_power = base_power + np.random.normal(0, 200)
+        
+        # Случайная аномалия
+        if np.random.random() < 0.2:
+            anomaly_size = np.random.uniform(800, 2000)
+            current_power += anomaly_size
+            print(f"\n🚨 ВНИМАНИЕ! Обнаружено отклонение в {current_time.strftime('%H:%M:%S')}")
+            print(f"   Текущее потребление: {current_power:.0f} кВт")
+            print(f"   Отклонение: +{anomaly_size:.0f} кВт")
+            
+            # Простая рекомендация
+            if anomaly_size > 1500:
+                print(f"   РЕКОМЕНДАЦИЯ: Проверить работу основного компрессора и печи")
+            else:
+                print(f"   РЕКОМЕНДАЦИЯ: Скорректировать настройки вентиляции")
+            
+            # Расчет экономии
+            potential_saving = anomaly_size * 0.085  # 0.085 $/кВт·ч
+            print(f"   Потенциальная экономия: ${potential_saving:.2f}/час")
+        else:
+            print(f"   {current_time.strftime('%H:%M:%S')}: Потребление в норме ({current_power:.0f} кВт)")
+        
+        time.sleep(0.5)  # Имитация задержки
+    
+    print("\n✅ Демо-режим завершен")
+
+# ========================
+# 6. ОСНОВНАЯ ЛОГИКА
 # ========================
 
 def main():
@@ -302,6 +342,9 @@ def main():
         print(f"\n📁 Результаты сохранены в файлы:")
         print(f"   - energy_recommendations.csv (рекомендации)")
         print(f"   - energy_analysis_report.png (визуализации)")
+    
+    # 7. Демо-режим
+    simulate_realtime_monitoring()
     
     print("\n" + "=" * 60)
     print("СИСТЕМА АНАЛИЗА ЗАВЕРШИЛА РАБОТУ")
